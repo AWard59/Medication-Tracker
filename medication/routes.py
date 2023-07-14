@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from medication.service import get_medication_list, add_medication, update_medication_by_id, delete_medication_by_id, update_medication_completion, get_medication_completion, add_notes, view_notes, update_notes, delete_notes
 
 medication_bp = Blueprint('medication', __name__)
@@ -13,7 +13,8 @@ def get_all_medications():
 
 @medication_bp.route('/add', methods=['POST'])
 def get_medication_id():
-    medication = add_medication()
+    request_data = request.json
+    medication = add_medication(request_data)
     return jsonify(medication)
 
 @medication_bp.route('/update/:id', methods=['POST'])
@@ -55,4 +56,3 @@ def update_notes_def(notes_id):
 def delete_notes_def(notes_id):
     notes = delete_notes(notes_id)
     return jsonify(notes)
-
